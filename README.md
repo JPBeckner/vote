@@ -1,2 +1,3 @@
-# vote
+# Vote
+
 A microservice to simulate votes
