@@ -1,0 +1,4 @@
+python-dotenv >= 0.19.2
+falcon >= 3.1.0
+peewee >= 3.14.10
+pika >= 1.2.0
