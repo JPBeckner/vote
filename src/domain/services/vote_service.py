@@ -17,8 +17,18 @@ class RegistryVoteImpl(RegistryVote):
         self.logger = getLogger('app')
         
     
-    def save_vote(self, vote: Vote):
-        self.save_vote(vote=vote)
+    def save_vote(self, code: int):
+        self.repo.save_vote(code=code)
+        
+    def create_vote_option(self, code):
+        if not isinstance(code, int):
+            if isinstance(code, str):
+                if code.isnumeric():
+                    code = int(code)
+                    
+        if not isinstance(code, int):
+            return False
+        self.repo.create_vote_option(code)
         
     def get_vote(self, code: int):
         self.logger.debug("the vote service is getting a Vote from de Repo")
