@@ -1,11 +1,12 @@
+import json
 
 
 class Vote:
     
     def __init__(
         self,
-        code: int,
-        count: int,
+        code: int = 0,
+        count: int = 0,
         *args,
         **kwargs
     ):
@@ -23,3 +24,16 @@ class Vote:
     @count.setter
     def count(self, value):
         self.__count = value
+        
+    def from_dict(self, dict: dict):
+        self.code = dict.get('code', 0)
+        self.count = dict.get('count', 0)
+        
+    def to_dict(self):
+        return {
+            "code": self.code,
+            "count": self.count,
+        }
+        
+    def json(self):
+        return json.dumps(self.to_dict())
