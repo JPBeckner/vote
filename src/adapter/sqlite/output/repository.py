@@ -1,25 +1,44 @@
 from typing import List
+from logging import getLogger
+
+from peewee import *
 
 from src.domain.ports.output import Repository
-from src.domain.entities import Vote
-from logging import getLogger
+from src.domain.entities import Vote as VoteEntity
+from src.domain.models.vote import Vote as VoteModel
 
 
 class RepositoryImpl(Repository):
     
     def __init__(
         self,
+        db: Database,
         *args,
         **kwargs
     ):
         self.logger = getLogger('app')
     
-    def save_vote(self, vote: Vote):
-        pass
+    def save_vote(self, code: int):
+        vote = VoteModel.get(
+            VoteModel.code == code
+        )
+        vote.count += 1
+        vote.save()
+    
+    def create_vote_option(self, code):
+        VoteModel.create(
+            code=code,
+            count=0,
+        )
     
     def get_vote(self, code: int):
         self.logger.debug('the repo is accepting a vote on de DB')
-        return Vote(code=code, count=2022)
+        vote = VoteModel.get_or_none(
+            VoteModel.code == code
+        )
+        if vote:
+            return vote.get_vote()
+        return None
     
-    def get_all_votes(self) -> List[Vote]:
+    def get_all_votes(self) -> List[VoteEntity]:
         pass
