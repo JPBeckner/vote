@@ -9,6 +9,13 @@ from wsgiref.simple_server import make_server
 from src.domain.services.vote_service import RegistryVoteImpl
 from src.adapter.sqlite.output.repository import RepositoryImpl
 from src.adapter.falcon.input.vote_controler import VoteController
+from src.domain.models import connection, initialize_db
+from src.domain.models.vote import Vote
+
+
+all_models = (
+    Vote,
+)
 
 
 # TO DO: create checkpoint Service
@@ -29,11 +36,17 @@ if __name__ == "__main__":
     load_dotenv()
     config_logging()
     
-    repo = RepositoryImpl()
+    initialize_db(
+        models=all_models, 
+        connection=connection
+    )
+    
+    repo = RepositoryImpl(db=connection)
     service = RegistryVoteImpl(repo=repo)
 
     app = App()
-    app.add_route("/vote/{code:int}", VoteController(service=service))
+    app.add_route("/vote/{code:int}", VoteController(service=service), suffix='vote')
+    app.add_route("/vote", VoteController(service=service))
     with make_server('0.0.0.0', 8000, app) as httpd:
         print('Serving on port 8000...')
 
