@@ -26,7 +26,7 @@ class Controller(metaclass=abc.ABCMeta):
 
     
     @abc.abstractmethod
-    def on_get(self, req: Request, resp: Response, code=None):
+    def on_get_vote(self, req: Request, resp: Response, code=None):
         raise NotImplementedError
     
     @abc.abstractmethod

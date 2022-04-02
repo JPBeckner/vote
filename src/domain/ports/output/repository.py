@@ -14,6 +14,10 @@ class Repository(metaclass=abc.ABCMeta):
         raise NotImplementedError
     
     @abc.abstractmethod
+    def create_vote_option(self, code: int):
+        raise NotImplementedError
+    
+    @abc.abstractmethod
     def get_vote(self, code: int) -> Vote:
         raise NotImplementedError
     
