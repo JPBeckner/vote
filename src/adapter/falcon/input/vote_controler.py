@@ -1,4 +1,4 @@
-from json import load, dump, dumps
+from json import load, dump, dumps, loads
 from logging import getLogger
 
 import falcon
@@ -32,9 +32,8 @@ class VoteController(Controller):
         })
     
     def on_post(self, req, resp):
-        body: dict = load(req.stream)
-        a = req.get_param_as_int('code')
-        b = req.context.get('code')
+        # TODO: handle if code doesn't exist.
+        body: dict = loads(req.stream.peek())
         code = body.get('code')
         
         if not code:
@@ -49,7 +48,8 @@ class VoteController(Controller):
         })
         
     def on_put(self, req, resp):
-        body: dict = load(req.stream)
+        # TODO: handle if code already exists.
+        body: dict = loads(req.stream.peek())
         code = body.get('code')
         
         if not code:
