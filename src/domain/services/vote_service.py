@@ -34,5 +34,9 @@ class RegistryVoteImpl(RegistryVote):
         self.logger.debug("the vote service is getting a Vote from de Repo")
         return self.repo.get_vote(code=code)
     
+    def delete_vote(self, code: int) -> bool:
+        self.logger.info(f"deleting vote {code}")
+        return self.repo.delete_vote(code=code)
+    
     
     

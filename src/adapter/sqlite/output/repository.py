@@ -33,7 +33,7 @@ class RepositoryImpl(Repository):
     
     def get_vote(self, code: int):
         self.logger.debug('the repo is accepting a vote on de DB')
-        vote = VoteModel.get_or_none(
+        vote: VoteModel = VoteModel.get_or_none(
             VoteModel.code == code
         )
         if vote:
@@ -42,3 +42,10 @@ class RepositoryImpl(Repository):
     
     def get_all_votes(self) -> List[VoteEntity]:
         pass
+    
+    def delete_vote(self, code: int) -> bool:
+        return bool(
+            VoteModel.delete().where(
+                VoteModel.code == code
+            ).execute()
+        )
