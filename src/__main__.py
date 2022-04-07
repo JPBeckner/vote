@@ -11,6 +11,7 @@ from src.adapter.sqlite.output.repository import RepositoryImpl
 from src.adapter.falcon.input.vote_controler import VoteController
 from src.domain.models import connection, initialize_db
 from src.domain.models.vote import Vote
+from src.adapter.falcon import spec
 
 
 all_models = (
@@ -43,10 +44,15 @@ if __name__ == "__main__":
     
     repo = RepositoryImpl(db=connection)
     service = RegistryVoteImpl(repo=repo)
+    resource = VoteController(service=service)
 
     app = App()
-    app.add_route("/vote/{code:int}", VoteController(service=service), suffix='vote')
-    app.add_route("/vote", VoteController(service=service))
+    app.add_route("/vote/{code:int}", resource, suffix='vote')
+    app.add_route("/vote", resource)
+    
+    # Create an APISpec
+    spec.register(app)
+    
     with make_server('0.0.0.0', 8000, app) as httpd:
         print('Serving on port 8000...')
 
