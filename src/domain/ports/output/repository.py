@@ -25,3 +25,7 @@ class Repository(metaclass=abc.ABCMeta):
     def get_all_votes(self) -> List[Vote]:
         raise NotImplementedError
     
+    @abc.abstractmethod
+    def delete_vote(self, code: int) -> bool:
+        raise NotImplementedError
+    
