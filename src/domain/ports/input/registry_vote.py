@@ -30,3 +30,14 @@ class RegistryVote(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_vote(self, code: int) -> Vote:
         raise NotImplementedError
+    
+    @abc.abstractmethod
+    def delete_vote(self, code: int) -> bool:
+        """Delete the vote option of the given code.
+
+        :param code: The vote option code to delete.
+        :type code: int
+        :return: True if deleted, False otherwise.
+        :rtype: bool
+        """
+        raise NotImplementedError
